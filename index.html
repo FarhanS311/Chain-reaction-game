@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chain reaction</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="./index.html">New Game</a>
+                </li>
+                <li id="p1score"></li>
+                <li id="p2score"></li>
+                <li>Rate the game</li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="newgame">
+
+        </div>
+        <div id="board">
+
+        </div>
+    </main>
+    <footer>
+        <div class="copyright">&copy; Farhan Shaikh 2021</div>
+        <div class="contact-links">
+            <!-- <a href="https://www.google.com" target="_blank" class="contact">Google</a> -->
+            <!-- <a href="https://www.facebook.com" target="_blank" class="contact">Facebook</a> -->
+            <a href="https://www.linkedin.com/farhan-shaikh-5865017a" target="_blank" class="contact">
+                <i class="uil icon uil-linkedin-alt"></i>
+            </a>
+            <a href="https://www.twitter.com/FarhanS311/" target="_blank" class="contact">
+                <i class="uil icon uil-twitter-alt"></i>
+            </a>
+            <a href="mailto:projectplanner20@gmail.com" class="contact">
+                <i class="uil icon uil-envelope-alt"></i>
+            </a>
+            <a href="tel:+91-969-903-4703" class="contact">
+                <i class="uil icon uil-outgoing-call"></i>
+            </a>
+        </div>
+    </footer>
+    <script>
+        var rows = 9, columns = 9;
+        var turn = 1;
+        var firstturn=true;
+        var greenscore = 0;
+        var redscore = 0;
+
+        var table = document.createElement('table'), tr, td, row, cell;
+        for (var row = 0; row < rows; row++) {
+            tr = document.createElement('tr');
+            for (var cell = 0; cell < columns; cell++) {
+                td = document.createElement('td');
+                var box = document.createElement('div');
+                var circle1 = document.createElement('div');
+                var circle2 = document.createElement('div');
+                var circle3 = document.createElement('div');
+                var circle4 = document.createElement('div');
+                circle1.classList.add("circle1")
+                circle2.classList.add("circle2")
+                circle3.classList.add("circle3")
+                circle4.classList.add("circle4")
+                td.setAttribute("onclick", "play(" + row + "," + cell + ")");
+                box.setAttribute("id", "r" + row + "c" + cell);
+                box.setAttribute("class", "box");
+                box.appendChild(circle1);
+                box.appendChild(circle2);
+                box.appendChild(circle3);
+                box.appendChild(circle4);
+                td.appendChild(box);
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+        document.getElementById("board").appendChild(table);
+
+        var board = new Array(rows);
+        for (let i = 0; i < row; i++) {
+            board[i] = new Array(columns);
+            for (let j = 0; j < columns; j++) {
+                board[i][j] = 0;
+            }
+        }
+
+        function play(r, c) {
+            // console.log("inside play")
+            if (turn == 1 && document.getElementById("r" + r + "c" + c).classList.contains("redcell") == false) {
+                // console.log("inside turn1")
+                board[r][c]++;
+                react(r, c, turn);
+                turn++;
+            }
+            else if (turn == 2 && document.getElementById("r" + r + "c" + c).classList.contains("greencell") == false) {
+                board[r][c]++;
+                react(r, c, turn);
+                turn--;
+                firstturn=false;
+            }
+        }
+
+        function react(r, c, turn) {
+            let cell = document.getElementById("r" + r + "c" + c);
+            let itExplodes = false;
+            let neighbourCount = 0;
+            let neighbours = {
+                up: false,
+                down: false,
+                left: false,
+                right: false,
+            };
+
+            if (r - 1 >= 0) {
+                neighbours.up = true;
+                neighbourCount++;
+            }
+            if (r + 1 < rows) {
+                neighbours.down = true;
+                neighbourCount++;
+            }
+            if (c - 1 >= 0) {
+                neighbours.left = true;
+                neighbourCount++;
+            }
+            if (c + 1 < columns) {
+                neighbours.right = true;
+                neighbourCount++;
+            }
+
+            switch (board[r][c]) {
+                case 1: cell.classList.add("single");
+                    if (turn == 1) {
+                        greenscore++;
+                        document.getElementById("p1score").innerHTML="Player 1 score: "+greenscore;
+                        cell.classList.add("greencell")
+                        cell.children[0].classList.add("green");
+                        cell.children[1].classList.add("green");
+                        cell.children[2].classList.add("green");
+                    }
+                    else if (turn == 2) {
+                        redscore++;
+                        document.getElementById("p2score").innerHTML="Player 2 score: "+redscore;
+                        cell.classList.add("redcell")
+                        cell.children[0].classList.add("red");
+                        cell.children[1].classList.add("red");
+                        cell.children[2].classList.add("red");
+                    }
+                    break;
+                case 2: cell.classList.remove("single");
+                    cell.classList.add("double");
+                    if (neighbourCount == 2) {
+                        cell.classList.remove("double");
+                        itExplodes = true;
+                    }
+                    break;
+                case 3: cell.classList.remove("double");
+                    cell.classList.add("triple");
+                    if (neighbourCount == 3) {
+                        cell.classList.remove("triple");
+                        itExplodes = true;
+                    }
+                    break;
+                case 4: cell.classList.remove("triple");
+                    itExplodes = true;
+            }
+            if (itExplodes == true) {
+                board[r][c] = 0;
+                cell.children[0].classList.remove("red", "green");
+                cell.children[1].classList.remove("red", "green");
+                cell.children[2].classList.remove("red", "green");
+                if (cell.classList.contains("redcell") == true) {
+                    redscore--;
+                    document.getElementById("p2score").innerHTML="Player 2 score: "+redscore;
+                }
+                else if (cell.classList.contains("greencell") == true) {
+                    greenscore--;
+                    document.getElementById("p1score").innerHTML="Player 1 score: "+greenscore;
+                }
+                cell.classList.remove("redcell", "greencell");
+                explode(r, c, neighbours, turn);
+                if (firstturn == false) {
+                if (redscore == 0) {
+                    alert("Player 1 wins");
+                    firstturn=true;
+                }
+                else if (greenscore == 0) {
+                    alert("Player 2 wins");
+                    firstturn=true;
+                }
+            }
+            }
+        }
+
+        function explode(r, c, neighbours, turn) {
+            let color;
+            if (turn == 1) {
+                color = "redcell";
+            }
+            else {
+                color = "greencell";
+            }
+            // explosionAnimation(r,c,neighbours);
+
+            if (neighbours.up == true) {
+                board[r - 1][c]++;
+                var cellup = document.getElementById("r" + (r - 1) + "c" + c);
+                if (cellup.classList.contains(color) == true) {
+                    changeColor(cellup);
+                }
+                react(r - 1, c, turn);
+            }
+            if (neighbours.down == true) {
+                board[r + 1][c]++;
+                var celldown = document.getElementById("r" + (r + 1) + "c" + c);
+                if (celldown.classList.contains(color) == true) {
+                    changeColor(celldown);
+                }
+                react(r + 1, c, turn);
+            }
+            if (neighbours.left == true) {
+                board[r][c - 1]++;
+                var cellleft = document.getElementById("r" + r + "c" + (c - 1));
+                if (cellleft.classList.contains(color) == true) {
+                    changeColor(cellleft);
+                }
+                react(r, c - 1, turn);
+            }
+            if (neighbours.right == true) {
+                board[r][c + 1]++;
+                var cellright = document.getElementById("r" + r + "c" + (c + 1));
+                if (cellright.classList.contains(color) == true) {
+                    changeColor(cellright);
+                }
+                react(r, c + 1, turn);
+            }
+        }
+
+        // function explosionAnimation(r,c,neighbours){
+        //     let cell = document.getElementById("r" + r + "c" + c);
+        //     cell.classList.remove("single double triple");
+
+        //     if (neighbours.up == true) {
+        //         cell.children[0].classList.add("animateUp");
+        //     }
+        //     if (neighbours.down == true) {
+        //         cell.children[1].classList.add("animateDown");
+        //     }
+        //     if (neighbours.left == true) {
+        //         cell.children[2].classList.add("animateLeft");
+        //     }
+        //     if (neighbours.right == true) {
+        //         cell.children[3].classList.add("animateRight");
+        //     }
+        // }
+
+        function changeColor(cell) {
+            if (cell.classList.contains("redcell") == true) {
+                redscore--;
+                greenscore++;
+            }
+            else if (cell.classList.contains("greencell") == true) {
+                greenscore--;
+                redscore++;
+            }
+            cell.classList.toggle("greencell");
+            cell.classList.toggle("redcell");
+            for (let i = 0; i < cell.children.length; i++) {
+                cell.children[i].classList.toggle("green");
+                cell.children[i].classList.toggle("red");
+            }
+        }
+
+    </script>
+</body>
+
+</html>

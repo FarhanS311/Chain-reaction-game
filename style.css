@@ -1,0 +1,227 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Comic Neue", cursive;
+}
+header {
+  height: 10vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+}
+ul {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: var(--txt-primary);
+}
+
+li {
+  list-style: none;
+  padding: 1vw;
+  font-size: 1.25rem;
+  color: yellow;
+}
+
+nav ul li:hover{
+  background-color: rgba(169, 169, 169, 0.452);
+  border-radius: 3px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  padding-bottom: 1rem;
+}
+
+tr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td {
+  width: 60px;
+  height: 60px;
+  border: 3px inset;
+  display: inline-block;
+}
+
+.contact-links {
+  margin-top: 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.contact {
+  padding: 0.5em 1.5em;
+  transition: transform 0.2s ease-out;
+}
+
+.contact:hover {
+  transform: translateY(-10px);
+}
+
+.icon {
+  font-size: 1.2rem;
+}
+
+.copyright {
+  align-self: center;
+}
+
+footer {
+  display: flex;
+  background-color: crimson;
+  justify-content: space-evenly;
+}
+
+.box {
+  width: 54px;
+  height: 54px;
+}
+
+/* .animateUp{
+  visibility: visible;
+  transform: translateY(30px);
+}
+.animateDown{
+  visibility: visible;
+  transform: translateY(-30px);
+}
+.animateLeft{
+  visibility: visible;
+  transform: translateX(-30px);
+}
+.animateRight{
+  visibility: visible;
+  transform: translateX(30px);
+} */
+
+.red {
+  background-color: red;
+  background: radial-gradient(circle at 10px 10px, red, #000);
+}
+
+.green {
+  background-color: green;
+  background: radial-gradient(circle at 10px 10px, green, #000);
+}
+
+.single .circle1 {
+  visibility: visible;
+}
+
+.double {
+  /* -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite; */
+  animation: spin 2s linear infinite;
+}
+
+.double .circle1 {
+  visibility: visible;
+  margin-top: 13px;
+  margin-left: 5px;
+}
+
+.double .circle2 {
+  visibility: visible;
+  margin-top: 13px;
+  margin-left: 18px;
+}
+
+.triple {
+  /* -webkit-animation:spin 4s linear infinite; */
+  /* -moz-animation:spin 4s linear infinite; */
+  animation: spin 2s linear infinite;
+}
+
+.triple .circle1 {
+  visibility: visible;
+  margin-top: 13px;
+  margin-left: 5px;
+}
+
+.triple .circle2 {
+  visibility: visible;
+  margin-top: 5px;
+  margin-left: 18px;
+}
+
+.triple .circle3 {
+  visibility: visible;
+  margin-top: 18px;
+  margin-left: 18px;
+}
+
+.circle1 {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  margin: 13px;
+  /* background: radial-gradient(circle at 10px 10px, green, #000); */
+  z-index: 3;
+  visibility: hidden;
+  transition: transform 1s, visibility 0s;
+}
+
+.circle2 {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  margin: 13px;
+  /* background: radial-gradient(circle at 10px 10px, green, #000); */
+  z-index: 2;
+  visibility: hidden;
+  transition: transform 1s, visibility 0s;
+}
+
+.circle3 {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  margin: 13px;
+  /* background: radial-gradient(circle at 10px 10px, green, #000); */
+  z-index: 1;
+  visibility: hidden;
+  transition: transform 1s, visibility 0s;
+}
+
+.circle4 {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  margin: 13px;
+  /* background: radial-gradient(circle at 10px 10px, green, #000); */
+  z-index: 0;
+  visibility: hidden;
+  transition: transform 1s, visibility 0s;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+/* @-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+} */
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* exploding animation */
